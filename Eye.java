@@ -40,6 +40,8 @@ public class Eye {
 
     
     public void draw (Graphics g) {
+        int clickedX;
+        int clickedY;
         
         g.setColor(Color.black);
         g.fillOval (eyeX, eyeY, eyeWidth, eyeHeight);
@@ -88,6 +90,7 @@ public class Eye {
             // findY will calculate the vertical posiiton of the pupil, at most vertDist away from eye center 
             pupilY = (int) findY(precisePupilX, slope);
         }
+        
     }
     
     // findX calculates the new horizonal position of the pupil, at most horDist away from eye center
@@ -109,6 +112,20 @@ public class Eye {
     public double findY (double pupX, double slope) {
         // remember your geometry?  y = mx + b?  woot!
         return ( (slope * (pupX - eyeCenterX)) + eyeCenterY );
+    }
+
+    public void drawLaserEyes(Graphics g, int clickX, int clickY){
+        int deltaX = clickX - eyeCenterX;
+        int deltaY = clickY - eyeCenterY;
+        double slope = (double) deltaY/(double) deltaX;
+        double precisePupilX = findX(slope, deltaX);
+        Graphics2D g2d = (Graphics2D) g;
+        pupilX = (int) precisePupilX;
+        // findY will calculate the vertical posiiton of the pupil, at most vertDist away from eye center 
+        pupilY = (int) findY(precisePupilX, slope);
+        g.setColor(Color.red);
+        g2d.setStroke(new BasicStroke(5.0f));
+        g.drawLine(pupilX, pupilY, clickX, clickY);
     }
     
     
