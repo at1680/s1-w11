@@ -52,15 +52,19 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener 
            
           
     public void paintComponent(Graphics g) {
+        g.drawImage(myPic.getImage(), 0, 0, this);
         if (eye_1==null){
-
+            eye_1 = new Eye(269, 290, 49, 37);
+        }
+        else{
+            eye_1.draw(g);
         }
         if(eye_2==null){
-
+            eye_2 = new Eye(372, 290, 49, 37);
         }
-        g.drawImage(myPic.getImage(), 0, 0, this);
-        eye_1.draw(g);
-        eye_2.draw(g);
+        else {
+            eye_2.draw(g);
+        }
     }
 
     // public void drawLaserEyes(MouseEvent event, Graphics g){
