@@ -11,15 +11,16 @@ import java.awt.event.*;
 
 public class XEyes extends JPanel implements MouseListener, MouseMotionListener {
 
-
+    private int duration=0;
+    private long pressTime = 0;
     private String fileName = "einstein.jpg";
 
     private JFrame myFrame;
     private ImageIcon myPic;
     
     // Each eye gets an instance variable.
-    private Eye eye_1;
-    private Eye eye_2;
+    private Eye eye_1=null;
+    private Eye eye_2=null;
     
 
     // Constructor: this loads the image "einstein.jpg" in the "images" directory 
@@ -33,8 +34,8 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener 
         constructImage(fileName);
 
         // these eyes fit right on Einstein's head.  
-        eye_1 = new Eye(269, 290, 49, 37);
-        eye_2 = new Eye(372, 290, 49, 37);
+        // eye_1 = new Eye(269, 290, 49, 37);
+        // eye_2 = new Eye(372, 290, 49, 37);
         addMouseListener(this);
         myFrame.setVisible(true);
         }
@@ -51,7 +52,12 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener 
            
           
     public void paintComponent(Graphics g) {
-  
+        if (eye_1==null){
+
+        }
+        if(eye_2==null){
+
+        }
         g.drawImage(myPic.getImage(), 0, 0, this);
         eye_1.draw(g);
         eye_2.draw(g);
@@ -64,11 +70,12 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener 
 
     // move the pupil when the mouse is clicked
     public void mouseClicked (MouseEvent event) {
-        eye_1.movePupil(event.getX(), event.getY());
-        eye_2.movePupil(event.getX(), event.getY());
+        // eye_1.movePupil(event.getX(), event.getY());
+        // eye_2.movePupil(event.getX(), event.getY());
+        event.getX();
+
         eye_1.drawLaserEyes(getGraphics(), event.getX(), event.getY());
         eye_2.drawLaserEyes(getGraphics(), event.getX(), event.getY());
-        //repaint();
     }
 
     public void mouseMoved (MouseEvent event){
@@ -78,13 +85,19 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener 
     }
 
     public void mouseDragged (MouseEvent event){
-
+        eye_1=new Eye(event.getX(), event.getY(), duration/10, duration/10);
+        repaint();
+        eye_2=new Eye(event.getX(), event.getY(), duration/10, duration/10);
+        repaint();
     }
   
     public void mouseReleased (MouseEvent event) {
+        long releaseTime = System.currentTimeMillis();
+        duration = (int)(releaseTime - pressTime);
     }
     
     public void mousePressed (MouseEvent event) {
+        pressTime = System.currentTimeMillis();
     }
     
     public void mouseEntered (MouseEvent event) {
